@@ -1,22 +1,35 @@
 services:
-  synexis:
-    image: postgres:18-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "5432:5432"
-    volumes:
-      - db_data:/var/lib/postgresql/data
-    networks:
-      - synexis-network
+    synexis:
+        image: postgres:18-alpine
+        container_name: synexis_db
+        environment:
+            POSTGRES_DB: ${SYN_DB_NAME}
+            POSTGRES_USER: ${SYN_DB_USERNAME}
+            POSTGRES_PASSWORD: ${SYN_DB_PASSWORD}
+        ports:
+            - "${SYN_DB_PORT}:5432"
+        restart: always
+        volumes:
+            - db_data:/var/lib/postgresql/data
+        networks:
+            - synexis-network
+
+    ansible:
+        image: cytopia/ansible:latest-tools
+        container_name: synexis_ansible
+        volumes:
+            - ./ansible:/data
+        env_file: .env
+        depends_on:
+            - synexis
+        networks:
+            - synexis-network
+        profiles: ["tools"]
+        entrypoint: ["ansible-playbook", "-i", "localhost,", "playbook.yml"]
 
 networks:
- synexis-network:
-    driver: bridge
+    synexis-network:
+        driver: bridge
 
 volumes:
-  db_data:
-
-
+    db_data:
