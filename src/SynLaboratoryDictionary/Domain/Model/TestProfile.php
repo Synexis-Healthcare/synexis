@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\SynLaboratoryDictionary\Domain\Model;
 
+use App\SynLaboratoryDictionary\Domain\Builder\TestProfileBuilder;
 use Symfony\Component\Uid\Uuid;
 
 final class TestProfile
 {
-    use HasBuilder;
-
     /**
      * @param TestDefinition[] $tests
      */
@@ -39,5 +38,10 @@ final class TestProfile
     public function getTests(): array
     {
         return $this->tests;
+    }
+
+    public function toBuilder(): TestProfileBuilder
+    {
+        return TestProfileBuilder::from($this);
     }
 }

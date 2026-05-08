@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace App\SynLaboratoryDictionary\Domain\Model;
 
+use App\SynLaboratoryDictionary\Domain\Builder\SpecimenDefinitionBuilder;
 use Symfony\Component\Uid\Uuid;
 
 final class SpecimenDefinition
 {
-    use HasBuilder;
-
     public function __construct(
         private readonly Uuid $id,
         private readonly string $biomaterial,
         private readonly ContainerType $containerType,
-        private readonly string $filler,
+        private readonly ?string $filler,
         private readonly string $temperatureCondition,
         private readonly string $stabilityPeriod,
-        private readonly string $preparationRequirements,
+        private readonly ?string $preparationRequirements,
     ) {
     }
 
@@ -36,7 +35,7 @@ final class SpecimenDefinition
         return $this->biomaterial;
     }
 
-    public function getFiller(): string
+    public function getFiller(): ?string
     {
         return $this->filler;
     }
@@ -51,8 +50,13 @@ final class SpecimenDefinition
         return $this->stabilityPeriod;
     }
 
-    public function getPreparationRequirements(): string
+    public function getPreparationRequirements(): ?string
     {
         return $this->preparationRequirements;
+    }
+
+    public function toBuilder(): SpecimenDefinitionBuilder
+    {
+        return SpecimenDefinitionBuilder::from($this);
     }
 }

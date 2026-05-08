@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace App\SynLaboratoryDictionary\Domain\Model;
 
+use App\SynLaboratoryDictionary\Domain\Builder\ReferenceRuleBuilder;
 use Symfony\Component\Uid\Uuid;
 
 final class ReferenceRule
 {
-    use HasBuilder;
-
     public function __construct(
         private readonly Uuid $id,
         private readonly string $testId,
         private readonly ReferencePolicy $policy,
-        private readonly array $normalityRule,
-        private readonly array $criticalityRule,
-        private readonly array $interpretationRule,
+        private readonly ?array $normalityRule,
+        private readonly ?array $criticalityRule,
+        private readonly ?array $interpretationRule,
         private readonly int $priority,
     ) {
     }
@@ -36,17 +35,17 @@ final class ReferenceRule
         return $this->policy;
     }
 
-    public function getNormalityRule(): array
+    public function getNormalityRule(): ?array
     {
         return $this->normalityRule;
     }
 
-    public function getCriticalityRule(): array
+    public function getCriticalityRule(): ?array
     {
         return $this->criticalityRule;
     }
 
-    public function getInterpretationRule(): array
+    public function getInterpretationRule(): ?array
     {
         return $this->interpretationRule;
     }
@@ -54,5 +53,10 @@ final class ReferenceRule
     public function getPriority(): int
     {
         return $this->priority;
+    }
+
+    public function toBuilder(): ReferenceRuleBuilder
+    {
+        return ReferenceRuleBuilder::from($this);
     }
 }

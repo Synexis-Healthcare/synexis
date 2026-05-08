@@ -13,15 +13,10 @@ class ReferenceRuleBuilder
     private Uuid $id;
     private ?string $testId = null;
     private ?ReferencePolicy $policy = null;
-    private array $normalityRule = [];
-    private array $criticalityRule = [];
-    private array $interpretationRule = [];
+    private ?array $normalityRule = [];
+    private ?array $criticalityRule = [];
+    private ?array $interpretationRule = [];
     private int $priority = 0;
-
-    public function __construct()
-    {
-        $this->id = Uuid::v7();
-    }
 
     public function withId(Uuid $id): self
     {
@@ -44,23 +39,23 @@ class ReferenceRuleBuilder
         return $this;
     }
 
-    public function withNormality(array $rule): self
+    public function withNormalityRule(?array $normalityRule): self
     {
-        $this->normalityRule = $rule;
+        $this->normalityRule = $normalityRule;
 
         return $this;
     }
 
-    public function withCriticality(array $rule): self
+    public function withCriticalityRule(?array $rule): self
     {
         $this->criticalityRule = $rule;
 
         return $this;
     }
 
-    public function withInterpretation(array $rule): self
+    public function withInterpretationRule(?array $interpretationRule): self
     {
-        $this->interpretationRule = $rule;
+        $this->interpretationRule = $interpretationRule;
 
         return $this;
     }
@@ -72,17 +67,16 @@ class ReferenceRuleBuilder
         return $this;
     }
 
-    public function fillFromModel(ReferenceRule $rule): self
+    public static function from(ReferenceRule $rule): self
     {
-        $this->id = $rule->getId();
-        $this->testId = $rule->getTestId();
-        $this->policy = $rule->getPolicy();
-        $this->normalityRule = $rule->getNormalityRule();
-        $this->criticalityRule = $rule->getCriticalityRule();
-        $this->interpretationRule = $rule->getInterpretationRule();
-        $this->priority = $rule->getPriority();
-
-        return $this;
+        return new self()
+        ->withId($rule->getId())
+        ->withTestId($rule->getTestId())
+        ->withPolicy($rule->getPolicy())
+        ->withNormalityRule($rule->getNormalityRule())
+        ->withCriticalityRule($rule->getCriticalityRule())
+        ->withInterpretationRule($rule->getInterpretationRule())
+        ->withPriority($rule->getPriority());
     }
 
     public function build(): ReferenceRule

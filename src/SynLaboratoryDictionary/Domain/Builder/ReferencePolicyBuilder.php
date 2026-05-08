@@ -12,7 +12,7 @@ use App\SynLaboratoryDictionary\Domain\Model\ReferencePolicy;
 
 class ReferencePolicyBuilder
 {
-    private Gender $gender = Gender::ANY;
+    private ?Gender $gender = null;
     private ?AgeRange $ageRange = null;
     private ?PregnancyTrimester $pregnancyTrimester = null;
     private ?MenstrualPhase $menstrualPhase = null;
@@ -45,18 +45,27 @@ class ReferencePolicyBuilder
         return $this;
     }
 
-    public function fillFromModel(ReferencePolicy $policy): self
+    public static function from(ReferencePolicy $policy): self
     {
-        $this->gender = $policy->getGender();
-        $this->ageRange = $policy->getAgeRange();
-        $this->pregnancyTrimester = $policy->getPregnancyTrimester();
-        $this->menstrualPhase = $policy->getMenstrualPhase();
-
-        return $this;
+        return new self()
+        ->withGender($policy->getGender())
+        ->withAgeRange($policy->getAgeRange())
+        ->withPregnancyTrimester($policy->getPregnancyTrimester())
+        ->withMenstrualPhase($policy->getMenstrualPhase());
     }
 
     public function build(): ReferencePolicy
     {
+        if (Gender::MALE === $this->gender) {
+            if (null !== $this->pregnancyTrimester || null !== $this->menstrualPhase) {
+                throw new \LogicException('ReferencePolicy error: Мужская политика не может содержать данные о беременности или цикле.');
+            }
+        }
+
+        if (null !== $this->pregnancyTrimester && null !== $this->menstrualPhase) {
+            throw new \LogicException('ReferencePolicy error: Нельзя указать одновременно триместр и фазу цикла.');
+        }
+
         return new ReferencePolicy(
             $this->gender,
             $this->ageRange,

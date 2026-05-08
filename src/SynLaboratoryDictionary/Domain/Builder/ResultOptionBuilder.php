@@ -41,14 +41,13 @@ class ResultOptionBuilder
         return $this;
     }
 
-    public function fillFromModel(ResultOption $option): self
+    public static function from(ResultOption $option): self
     {
-        $this->code = $option->getCode();
-        $this->title = $option->getTitle();
-        $this->description = $option->getDescription();
-        $this->isAbnormal = $option->isAbnormal();
-
-        return $this;
+        return new self()
+        ->withCode($option->getCode())
+        ->withTitle($option->getTitle())
+        ->withDescription($option->getDescription())
+        ->withIsAbnormal($option->isAbnormal());
     }
 
     public function build(): ResultOption

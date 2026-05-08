@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\SynLaboratoryDictionary\Domain\Model;
 
+use App\SynLaboratoryDictionary\Domain\Builder\TestCategoryBuilder;
 use Symfony\Component\Uid\Uuid;
 
 final class TestCategory
 {
-    use HasBuilder;
-
     public function __construct(
         private readonly Uuid $id,
         private readonly string $title,
@@ -30,5 +29,10 @@ final class TestCategory
     public function getMnemonic(): string
     {
         return $this->mnemonic;
+    }
+
+    public function toBuilder(): TestCategoryBuilder
+    {
+        return TestCategoryBuilder::from($this);
     }
 }

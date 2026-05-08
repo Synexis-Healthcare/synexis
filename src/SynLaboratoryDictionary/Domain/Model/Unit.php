@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\SynLaboratoryDictionary\Domain\Model;
 
+use App\SynLaboratoryDictionary\Domain\Builder\UnitBuilder;
 use App\SynLaboratoryDictionary\Domain\Enum\UnitClassification;
 use Symfony\Component\Uid\Uuid;
 
@@ -15,7 +16,7 @@ final class Unit
         private readonly Uuid $id,
         private readonly string $code,
         private readonly string $title,
-        private readonly ?string $description,
+        private readonly string $description,
         private readonly UnitClassification $classification,
     ) {
     }
@@ -37,11 +38,16 @@ final class Unit
 
     public function getDescription(): string
     {
-        return $this->description ?? '';
+        return $this->description;
     }
 
     public function getClassification(): UnitClassification
     {
         return $this->classification;
+    }
+
+    public function toBuilder(): UnitBuilder
+    {
+        return UnitBuilder::from($this);
     }
 }

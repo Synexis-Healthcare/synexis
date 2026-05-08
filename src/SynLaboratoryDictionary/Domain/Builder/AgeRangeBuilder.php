@@ -9,7 +9,7 @@ use App\SynLaboratoryDictionary\Domain\Model\AgeRange;
 
 class AgeRangeBuilder
 {
-    private ?int $min = null;
+    private int $min = 0;
     private ?int $max = null;
     private AgeUnit $unit = AgeUnit::DAYS;
 
@@ -20,7 +20,7 @@ class AgeRangeBuilder
         return $this;
     }
 
-    public function withMax(int $max): self
+    public function withMax(?int $max): self
     {
         $this->max = $max;
 
@@ -34,22 +34,21 @@ class AgeRangeBuilder
         return $this;
     }
 
-    public function fillFromModel(AgeRange $ageRange): self
+    public static function from(AgeRange $ageRange): self
     {
-        $this->min = $ageRange->getMin();
-        $this->max = $ageRange->getMax();
-        $this->unit = $ageRange->getUnit();
-
-        return $this;
+        return new self()
+        ->withMin($ageRange->getMin())
+        ->withMax($ageRange->getMax())
+        ->withUnit($ageRange->getUnit());
     }
 
     public function build(): AgeRange
     {
-        if (null === $this->min || $this->min < 0) {
-            throw new \InvalidArgumentException('Age range minimum must be a non-negative integer');
+        if ($this->min < 0) {
+            throw new \InvalidArgumentException('Min age cannot be negative');
         }
 
-        if (null === $this->max || $this->max < $this->min) {
+        if (null !== $this->max && $this->max < $this->min) {
             throw new \InvalidArgumentException('Age range maximum must be greater than or equal to minimum');
         }
 

@@ -16,11 +16,6 @@ class UnitBuilder
     private ?string $description = null;
     private ?UnitClassification $classification = null;
 
-    public function __construct()
-    {
-        $this->id = Uuid::v7();
-    }
-
     public function withId(Uuid $id): self
     {
         $this->id = $id;
@@ -56,21 +51,22 @@ class UnitBuilder
         return $this;
     }
 
-    public function fillFromModel(Unit $unit): self
+    public static function from(Unit $unit): self
     {
-        $this->id = $unit->getId();
-        $this->code = $unit->getCode();
-        $this->title = $unit->getTitle();
-        $this->description = $unit->getDescription();
-        $this->classification = $unit->getClassification();
-
-        return $this;
+        return new self()
+        ->withId($unit->getId())
+        ->withcode($unit->getCode())
+        ->withTitle($unit->getTitle())
+        ->withDescription($unit->getDescription())
+        ->withClassification($unit->getClassification());
     }
 
     public function build(): Unit
     {
         if (null === $this->code || '' === trim($this->code)) {
             throw new \InvalidArgumentException('Unit code is required');
+        }if (isset($this->id)) {
+            throw new \InvalidArgumentException('Unit id is required');
         }
 
         if (null === $this->title || '' === trim($this->title)) {
@@ -85,7 +81,7 @@ class UnitBuilder
             $this->id,
             $this->code,
             $this->title,
-            $this->description, // может быть null
+            $this->description,
             $this->classification,
         );
     }

@@ -13,7 +13,7 @@ class TestProfileBuilder
     private Uuid $id;
     private ?string $code = null;
     private ?string $title = null;
-    // 2. Инициализируем массивом, чтобы избежать ошибок при addTest()
+
     private array $tests = [];
 
     public function __construct()
@@ -49,14 +49,13 @@ class TestProfileBuilder
         return $this;
     }
 
-    public function fillFromModel(TestProfile $profile): self
+    public static function from(TestProfile $profile): self
     {
-        $this->id = $profile->getId();
-        $this->code = $profile->getCode();
-        $this->title = $profile->getTitle();
-        $this->tests = $profile->getTests();
-
-        return $this;
+        return new self()
+        ->withId($profile->getId())
+        ->withCode($profile->getCode())
+        ->withTitle($profile->getTitle())
+        ->withTests($profile->getTests());
     }
 
     public function build(): TestProfile

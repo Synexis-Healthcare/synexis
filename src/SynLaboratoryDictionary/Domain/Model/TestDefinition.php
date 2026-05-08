@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\SynLaboratoryDictionary\Domain\Model;
 
+use App\SynLaboratoryDictionary\Domain\Builder\TestDefinitionBuilder;
 use App\SynLaboratoryDictionary\Domain\Enum\TestDefinitionStatus;
 use App\SynLaboratoryDictionary\Domain\Enum\ValueType;
 
 final class TestDefinition
 {
-    use HasBuilder;
-
     /**
      * @param ReferenceRule[] $rules
      * @param ResultOption[]  $resultOptions
@@ -20,7 +19,7 @@ final class TestDefinition
         private readonly string $officialName,
         private readonly string $shortName,
         private readonly string $loincCode,
-        private readonly TestCategory $category,
+        private readonly ?TestCategory $category,
         private readonly string $methodology,
         private readonly Unit $unit,
         private readonly int $version,
@@ -28,7 +27,7 @@ final class TestDefinition
         private readonly array $rules,
         private readonly SpecimenDefinition $specimen,
         private readonly ValueType $valueType,
-        private readonly array $resultOptions,
+        private readonly ?array $resultOptions,
     ) {
     }
 
@@ -92,8 +91,13 @@ final class TestDefinition
         return $this->valueType;
     }
 
-    public function getResultOptions(): array
+    public function getResultOptions(): ?array
     {
         return $this->resultOptions;
+    }
+
+    public function toBuilder(): TestDefinitionBuilder
+    {
+        return TestDefinitionBuilder::from($this);
     }
 }

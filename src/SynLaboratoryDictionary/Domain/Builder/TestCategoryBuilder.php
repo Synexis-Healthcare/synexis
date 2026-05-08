@@ -39,13 +39,12 @@ class TestCategoryBuilder
         return $this;
     }
 
-    public function fillFromModel(TestCategory $category): self
+    public static function from(TestCategory $category): self
     {
-        $this->id = $category->getId();
-        $this->title = $category->getTitle();
-        $this->mnemonic = $category->getMnemonic();
-
-        return $this;
+        return new self()
+        ->withId($category->getId())
+        ->withTitle($category->getTitle())
+        ->withMnemonic($category->getMnemonic());
     }
 
     public function build(): TestCategory
@@ -58,7 +57,7 @@ class TestCategoryBuilder
         }
 
         return new TestCategory(
-            $this->id, // Используем напрямую
+            $this->id,
             $this->title,
             $this->mnemonic
         );

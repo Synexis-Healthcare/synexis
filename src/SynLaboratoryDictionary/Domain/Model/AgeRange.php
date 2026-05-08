@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\SynLaboratoryDictionary\Domain\Model;
 
+use App\SynLaboratoryDictionary\Domain\Builder\AgeRangeBuilder;
 use App\SynLaboratoryDictionary\Domain\Enum\AgeUnit;
 
 final class AgeRange
 {
-    use HasBuilder;
-
     public function __construct(
         private readonly int $min,
-        private readonly int $max,
+        private readonly ?int $max,
         private readonly AgeUnit $unit,
     ) {
     }
@@ -22,7 +21,7 @@ final class AgeRange
         return $this->min;
     }
 
-    public function getMax(): int
+    public function getMax(): ?int
     {
         return $this->max;
     }
@@ -30,5 +29,10 @@ final class AgeRange
     public function getUnit(): AgeUnit
     {
         return $this->unit;
+    }
+
+    public function toBuilder(): AgeRangeBuilder
+    {
+        return AgeRangeBuilder::from($this);
     }
 }

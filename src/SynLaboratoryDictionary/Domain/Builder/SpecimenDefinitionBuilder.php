@@ -11,11 +11,11 @@ use Symfony\Component\Uid\Uuid;
 class SpecimenDefinitionBuilder
 {
     private Uuid $id;
-    private ?string $biomaterial = null;
-    private ?ContainerType $containerType = null;
+    private string $biomaterial;
+    private ContainerType $containerType;
     private ?string $filler = null;
-    private ?string $temperatureCondition = null;
-    private ?string $stabilityPeriod = null;
+    private string $temperatureCondition;
+    private string $stabilityPeriod;
     private ?string $preparationRequirements = null;
 
     public function __construct()
@@ -51,38 +51,37 @@ class SpecimenDefinitionBuilder
         return $this;
     }
 
-    public function withTemperature(string $temp): self
+    public function withTemperatureCondition(string $temp): self
     {
         $this->temperatureCondition = $temp;
 
         return $this;
     }
 
-    public function withStability(string $isoPeriod): self
+    public function withStability(string $period): self
     {
-        $this->stabilityPeriod = $isoPeriod;
+        $this->stabilityPeriod = $period;
 
         return $this;
     }
 
-    public function withPreparation(?string $reqs): self
+    public function withPreparation(?string $preparation): self
     {
-        $this->preparationRequirements = $reqs;
+        $this->preparationRequirements = $preparation;
 
         return $this;
     }
 
-    public function fillFromModel(SpecimenDefinition $specimen): self
+    public static function from(SpecimenDefinition $specimen): self
     {
-        $this->id = $specimen->getId();
-        $this->biomaterial = $specimen->getBiomaterial();
-        $this->containerType = $specimen->getContainerType();
-        $this->filler = $specimen->getFiller() ?: null;
-        $this->temperatureCondition = $specimen->getTemperatureCondition();
-        $this->stabilityPeriod = $specimen->getStabilityPeriod();
-        $this->preparationRequirements = $specimen->getPreparationRequirements() ?: null;
-
-        return $this;
+        return new self()
+        ->withId($specimen->getId())
+        ->withBiomaterial($specimen->getBiomaterial())
+        ->withContainerType($specimen->getContainerType())
+        ->withFiller($specimen->getFiller() ?: null)
+        ->withTemperatureCondition($specimen->getTemperatureCondition())
+        ->withStability($specimen->getStabilityPeriod())
+        ->withPreparation($specimen->getPreparationRequirements() ?: null);
     }
 
     public function build(): SpecimenDefinition

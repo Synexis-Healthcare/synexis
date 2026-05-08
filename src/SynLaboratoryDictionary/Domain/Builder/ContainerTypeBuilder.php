@@ -14,11 +14,6 @@ class ContainerTypeBuilder
     private ?string $colorHex = null;
     private ?float $volume = null;
 
-    public function __construct()
-    {
-        $this->id = Uuid::v7();
-    }
-
     public function withId(Uuid $id): self
     {
         $this->id = $id;
@@ -26,9 +21,15 @@ class ContainerTypeBuilder
         return $this;
     }
 
-    public function withColor(string $title, string $hex): self
+    public function withColorTitle(string $title): self
     {
         $this->colorTitle = $title;
+
+        return $this;
+    }
+
+    public function withColorHex(string $hex): self
+    {
         $this->colorHex = $hex;
 
         return $this;
@@ -41,18 +42,21 @@ class ContainerTypeBuilder
         return $this;
     }
 
-    public function fillFromModel(ContainerType $containerType): self
+    public static function from(ContainerType $containerType): self
     {
-        $this->id = $containerType->getId();
-        $this->colorTitle = $containerType->getColorTitle();
-        $this->colorHex = $containerType->getColorHex();
-        $this->volume = $containerType->getVolume();
-
-        return $this;
+        return new self()
+            ->withId($containerType->getId())
+            ->withColorTitle($containerType->getColorTitle())
+            ->withColorHex($containerType->getColorHex())
+            ->withVolume($containerType->getVolume());
     }
 
     public function build(): ContainerType
     {
+        if (!isset($this->id)) {
+            throw new \InvalidArgumentException('ID is required and must be set before building');
+        }
+
         return new ContainerType(
             $this->id,
             $this->colorTitle ?? throw new \InvalidArgumentException('Color title is required'),

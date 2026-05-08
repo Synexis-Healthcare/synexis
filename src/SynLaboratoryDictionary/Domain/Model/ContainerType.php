@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\SynLaboratoryDictionary\Domain\Model;
 
+use App\SynLaboratoryDictionary\Domain\Builder\ContainerTypeBuilder;
 use Symfony\Component\Uid\Uuid;
 
 final class ContainerType
 {
-    use HasBuilder;
-
     public function __construct(
         private readonly Uuid $id,
         private readonly string $colorTitle,
@@ -36,5 +35,10 @@ final class ContainerType
     public function getVolume(): float
     {
         return $this->volume;
+    }
+
+    public function toBuilder(): ContainerTypeBuilder
+    {
+        return ContainerTypeBuilder::from($this);
     }
 }

@@ -44,10 +44,16 @@ class TestDefinitionBuilder
         return $this;
     }
 
-    public function withNames(string $official, string $short): self
+    public function withOfficialName(?string $officialName): self
     {
-        $this->officialName = $official;
-        $this->shortName = $short;
+        $this->officialName = $officialName;
+
+        return $this;
+    }
+
+    public function withShortName(?string $shortName): self
+    {
+        $this->shortName = $shortName;
 
         return $this;
     }
@@ -124,23 +130,22 @@ class TestDefinitionBuilder
         return $this;
     }
 
-    public function fillFromModel(TestDefinition $testDefinition): self
+    public static function from(TestDefinition $testDefinition): self
     {
-        $this->id = $testDefinition->getId();
-        $this->officialName = $testDefinition->getOfficialName();
-        $this->shortName = $testDefinition->getShortName();
-        $this->loincCode = $testDefinition->getLoincCode();
-        $this->category = $testDefinition->getCategory();
-        $this->methodology = $testDefinition->getMethodology();
-        $this->unit = $testDefinition->getUnit();
-        $this->version = $testDefinition->getVersion();
-        $this->status = $testDefinition->getStatus();
-        $this->rules = $testDefinition->getRules();
-        $this->specimen = $testDefinition->getSpecimen();
-        $this->valueType = $testDefinition->getValueType();
-        $this->resultOptions = $testDefinition->getResultOptions();
-
-        return $this;
+        return new self()
+        ->withId($testDefinition->getId())
+        ->withOfficialName($testDefinition->getOfficialName())
+        ->withShortName($testDefinition->getShortName())
+        ->withLoincCode($testDefinition->getLoincCode())
+        ->withCategory($testDefinition->getCategory())
+        ->withMethodology($testDefinition->getMethodology())
+        ->withUnit($testDefinition->getUnit())
+        ->withVersion($testDefinition->getVersion())
+        ->withStatus($testDefinition->getStatus())
+        ->withRules($testDefinition->getRules())
+        ->withSpecimen($testDefinition->getSpecimen())
+        ->withValueType($testDefinition->getValueType())
+        ->withResultOptions($testDefinition->getResultOptions());
     }
 
     public function build(): TestDefinition
@@ -149,7 +154,7 @@ class TestDefinitionBuilder
             $this->id,
             $this->officialName ?? throw new \InvalidArgumentException('Official name is required'),
             $this->shortName ?? throw new \InvalidArgumentException('Short name is required'),
-            $this->loincCode ?? '',
+            $this->loincCode ?? throw new \InvalidArgumentException('Short loincCode is required'),
             $this->category ?? throw new \InvalidArgumentException('Category is required'),
             $this->methodology ?? throw new \InvalidArgumentException('Methodology is required'),
             $this->unit ?? throw new \InvalidArgumentException('Unit is required'),

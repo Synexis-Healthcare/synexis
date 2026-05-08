@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\SynLaboratoryDictionary\Domain\Model;
 
+use App\SynLaboratoryDictionary\Domain\Builder\ResultOptionBuilder;
+
 final class ResultOption
 {
     use HasBuilder;
@@ -11,7 +13,7 @@ final class ResultOption
     public function __construct(
         private readonly string $code,
         private readonly string $title,
-        private readonly string $description,
+        private readonly ?string $description,
         private readonly bool $isAbnormal,
     ) {
     }
@@ -34,5 +36,10 @@ final class ResultOption
     public function isAbnormal(): bool
     {
         return $this->isAbnormal;
+    }
+
+    public function toBuilder(): ResultOptionBuilder
+    {
+        return ResultOptionBuilder::from($this);
     }
 }
