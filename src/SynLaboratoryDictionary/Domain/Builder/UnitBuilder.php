@@ -54,18 +54,19 @@ class UnitBuilder
     public static function from(Unit $unit): self
     {
         return new self()
-        ->withId($unit->getId())
-        ->withcode($unit->getCode())
-        ->withTitle($unit->getTitle())
-        ->withDescription($unit->getDescription())
-        ->withClassification($unit->getClassification());
+            ->withId($unit->getId())
+            ->withcode($unit->getCode())
+            ->withTitle($unit->getTitle())
+            ->withDescription($unit->getDescription())
+            ->withClassification($unit->getClassification());
     }
 
     public function build(): Unit
     {
         if (null === $this->code || '' === trim($this->code)) {
             throw new \InvalidArgumentException('Unit code is required');
-        }if (isset($this->id)) {
+        }
+        if (isset($this->id)) {
             throw new \InvalidArgumentException('Unit id is required');
         }
 

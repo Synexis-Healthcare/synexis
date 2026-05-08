@@ -48,18 +48,16 @@ class ReferencePolicyBuilder
     public static function from(ReferencePolicy $policy): self
     {
         return new self()
-        ->withGender($policy->getGender())
-        ->withAgeRange($policy->getAgeRange())
-        ->withPregnancyTrimester($policy->getPregnancyTrimester())
-        ->withMenstrualPhase($policy->getMenstrualPhase());
+            ->withGender($policy->getGender())
+            ->withAgeRange($policy->getAgeRange())
+            ->withPregnancyTrimester($policy->getPregnancyTrimester())
+            ->withMenstrualPhase($policy->getMenstrualPhase());
     }
 
     public function build(): ReferencePolicy
     {
-        if (Gender::MALE === $this->gender) {
-            if (null !== $this->pregnancyTrimester || null !== $this->menstrualPhase) {
-                throw new \LogicException('ReferencePolicy error: Мужская политика не может содержать данные о беременности или цикле.');
-            }
+        if (Gender::MALE === $this->gender && (null !== $this->pregnancyTrimester || null !== $this->menstrualPhase)) {
+            throw new \LogicException('ReferencePolicy error: Мужская политика не может содержать данные о беременности или цикле.');
         }
 
         if (null !== $this->pregnancyTrimester && null !== $this->menstrualPhase) {
