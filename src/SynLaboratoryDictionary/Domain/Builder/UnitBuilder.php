@@ -55,7 +55,7 @@ class UnitBuilder
     {
         return new self()
             ->withId($unit->getId())
-            ->withcode($unit->getCode())
+            ->withCode($unit->getCode())
             ->withTitle($unit->getTitle())
             ->withDescription($unit->getDescription())
             ->withClassification($unit->getClassification());

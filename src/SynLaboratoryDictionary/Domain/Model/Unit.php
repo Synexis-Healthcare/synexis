@@ -10,8 +10,6 @@ use Symfony\Component\Uid\Uuid;
 
 final class Unit
 {
-    use HasBuilder;
-
     public function __construct(
         private readonly Uuid $id,
         private readonly string $code,

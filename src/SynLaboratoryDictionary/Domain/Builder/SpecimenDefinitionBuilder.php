@@ -18,11 +18,6 @@ class SpecimenDefinitionBuilder
     private string $stabilityPeriod;
     private ?string $preparationRequirements = null;
 
-    public function __construct()
-    {
-        $this->id = Uuid::v7();
-    }
-
     public function withId(Uuid $id): self
     {
         $this->id = $id;
@@ -87,7 +82,7 @@ class SpecimenDefinitionBuilder
     public function build(): SpecimenDefinition
     {
         return new SpecimenDefinition(
-            $this->id,
+            $this->id ?? throw new \InvalidArgumentException('Id is required'),
             $this->biomaterial ?? throw new \InvalidArgumentException('Biomaterial is required'),
             $this->containerType ?? throw new \InvalidArgumentException('Container type is required'),
             $this->filler,

@@ -19,7 +19,7 @@ enum TestDefinitionStatus: string
         return match ($this) {
             self::ACTIVE => 'Доступен для заказа',
             self::DEPRECATED => 'Снят с использования',
-            self::DRAFT => 'Стадия создания',
+            self::DRAFT => 'Черновик',
         };
     }
 }

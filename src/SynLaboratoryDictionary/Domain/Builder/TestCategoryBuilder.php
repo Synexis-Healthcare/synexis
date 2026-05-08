@@ -13,11 +13,6 @@ class TestCategoryBuilder
     private ?string $title = null;
     private ?string $mnemonic = null;
 
-    public function __construct()
-    {
-        $this->id = Uuid::v7();
-    }
-
     public function withId(Uuid $id): self
     {
         $this->id = $id;
@@ -57,7 +52,7 @@ class TestCategoryBuilder
         }
 
         return new TestCategory(
-            $this->id,
+            $this->id ?? throw new \InvalidArgumentException('Id is required'),
             $this->title,
             $this->mnemonic
         );

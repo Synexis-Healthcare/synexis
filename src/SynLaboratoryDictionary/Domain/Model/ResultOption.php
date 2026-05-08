@@ -8,8 +8,6 @@ use App\SynLaboratoryDictionary\Domain\Builder\ResultOptionBuilder;
 
 final class ResultOption
 {
-    use HasBuilder;
-
     public function __construct(
         private readonly string $code,
         private readonly string $title,

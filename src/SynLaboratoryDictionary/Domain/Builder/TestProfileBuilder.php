@@ -16,11 +16,6 @@ class TestProfileBuilder
 
     private array $tests = [];
 
-    public function __construct()
-    {
-        $this->id = Uuid::v7();
-    }
-
     public function withId(Uuid $id): self
     {
         $this->id = $id;
@@ -61,7 +56,7 @@ class TestProfileBuilder
     public function build(): TestProfile
     {
         return new TestProfile(
-            $this->id,
+            $this->id ?? throw new \InvalidArgumentException('Id is required'),
             $this->code ?? throw new \InvalidArgumentException('Profile code is required'),
             $this->title ?? throw new \InvalidArgumentException('Profile title is required'),
             $this->tests

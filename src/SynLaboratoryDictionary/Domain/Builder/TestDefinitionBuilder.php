@@ -12,7 +12,6 @@ use App\SynLaboratoryDictionary\Domain\Model\SpecimenDefinition;
 use App\SynLaboratoryDictionary\Domain\Model\TestCategory;
 use App\SynLaboratoryDictionary\Domain\Model\TestDefinition;
 use App\SynLaboratoryDictionary\Domain\Model\Unit;
-use Symfony\Component\Uid\Uuid;
 
 class TestDefinitionBuilder
 {
@@ -31,11 +30,6 @@ class TestDefinitionBuilder
     private ?ValueType $valueType = null;
     /** @var ResultOption[] */
     private array $resultOptions = [];
-
-    public function __construct()
-    {
-        $this->id = Uuid::v7()->toRfc4122();
-    }
 
     public function withId(string $id): self
     {
@@ -133,25 +127,25 @@ class TestDefinitionBuilder
     public static function from(TestDefinition $testDefinition): self
     {
         return new self()
-        ->withId($testDefinition->getId())
-        ->withOfficialName($testDefinition->getOfficialName())
-        ->withShortName($testDefinition->getShortName())
-        ->withLoincCode($testDefinition->getLoincCode())
-        ->withCategory($testDefinition->getCategory())
-        ->withMethodology($testDefinition->getMethodology())
-        ->withUnit($testDefinition->getUnit())
-        ->withVersion($testDefinition->getVersion())
-        ->withStatus($testDefinition->getStatus())
-        ->withRules($testDefinition->getRules())
-        ->withSpecimen($testDefinition->getSpecimen())
-        ->withValueType($testDefinition->getValueType())
-        ->withResultOptions($testDefinition->getResultOptions());
+            ->withId($testDefinition->getId())
+            ->withOfficialName($testDefinition->getOfficialName())
+            ->withShortName($testDefinition->getShortName())
+            ->withLoincCode($testDefinition->getLoincCode())
+            ->withCategory($testDefinition->getCategory())
+            ->withMethodology($testDefinition->getMethodology())
+            ->withUnit($testDefinition->getUnit())
+            ->withVersion($testDefinition->getVersion())
+            ->withStatus($testDefinition->getStatus())
+            ->withRules($testDefinition->getRules())
+            ->withSpecimen($testDefinition->getSpecimen())
+            ->withValueType($testDefinition->getValueType())
+            ->withResultOptions($testDefinition->getResultOptions());
     }
 
     public function build(): TestDefinition
     {
         return new TestDefinition(
-            $this->id,
+            $this->id ?? throw new \InvalidArgumentException('Id is required'),
             $this->officialName ?? throw new \InvalidArgumentException('Official name is required'),
             $this->shortName ?? throw new \InvalidArgumentException('Short name is required'),
             $this->loincCode ?? throw new \InvalidArgumentException('Short loincCode is required'),
