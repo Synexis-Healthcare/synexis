@@ -1,0 +1,48 @@
+-   name: Инициализация базы данных Synexis
+    hosts: localhost
+    connection: local
+    tasks:
+        -   name: Install psycopg2 dependency
+            pip:
+                name: psycopg2-binary
+                state: present
+
+        -   name: Создание пользователя для схемы LD
+            community.postgresql.postgresql_user:
+                login_host: synexis
+                login_db: "{{ lookup('env', 'SYN_DB_NAME') }}"
+                login_user: "{{ lookup('env', 'SYN_DB_USERNAME') }}"
+                login_password: "{{ lookup('env', 'SYN_DB_PASSWORD') }}"
+                name: "{{ lookup('env', 'SYN_DB_LD_USERNAME') }}"
+                password: "{{ lookup('env', 'SYN_DB_LD_PASSWORD') }}"
+
+        -   name: Создание схемы laboratory_dictionary
+            community.postgresql.postgresql_schema:
+                login_host: synexis
+                login_db: "{{ lookup('env', 'SYN_DB_NAME') }}"
+                login_user: "{{ lookup('env', 'SYN_DB_USERNAME') }}"
+                login_password: "{{ lookup('env', 'SYN_DB_PASSWORD') }}"
+                name: "{{ lookup('env', 'SYN_DB_LD_SCHEMA') }}"
+                owner: "{{ lookup('env', 'SYN_DB_LD_USERNAME') }}"
+
+        -   name: Отзыв публичных прав на схему
+            community.postgresql.postgresql_privs:
+                login_host: synexis
+                login_db: "{{ lookup('env', 'SYN_DB_NAME') }}"
+                login_user: "{{ lookup('env', 'SYN_DB_USERNAME') }}"
+                login_password: "{{ lookup('env', 'SYN_DB_PASSWORD') }}"
+                type: schema
+                objs: "{{ lookup('env', 'SYN_DB_LD_SCHEMA') }}"
+                state: absent
+                privs: ALL
+                role: PUBLIC
+
+
+        -   name: Назначение дефолтного пути к схеме для пользователя
+            community.postgresql.postgresql_query:
+                login_host: synexis
+                login_db: "{{ lookup('env', 'SYN_DB_NAME') }}"
+                login_user: "{{ lookup('env', 'SYN_DB_USERNAME') }}"
+                login_password: "{{ lookup('env', 'SYN_DB_PASSWORD') }}"
+                query: "ALTER ROLE {{ lookup('env', 'SYN_DB_LD_USERNAME') }} SET search_path = {{ lookup('env', 'SYN_DB_LD_SCHEMA') }}"
+
