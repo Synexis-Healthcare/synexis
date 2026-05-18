@@ -41,3 +41,6 @@
 11. php bin/console doctrine:migrations:migrate
     - Применит эту миграцию, и таблица doctrine_migration_versions появится в БД.
 12. symfony server:start
+
+
+
