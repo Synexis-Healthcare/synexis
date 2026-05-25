@@ -14,7 +14,7 @@ final class Version20260513103729 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Create laboratory_dictionary enum types';
     }
 
     public function up(Schema $schema): void

@@ -22,10 +22,10 @@ class SpecimenDefinitionEntity
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
-    private Uuid $id;
+    public readonly Uuid $id;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $biomaterial = null;
+    private string $biomaterial;
 
     #[ManyToOne(targetEntity: ContainerEntity::class, inversedBy: 'specimenDefinitions')]
     #[ORM\JoinColumn(name: 'container_id', referencedColumnName: 'id', nullable: false)]
@@ -35,25 +35,23 @@ class SpecimenDefinitionEntity
     private ?string $filler = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $temperature_condition = null;
+    private ?string $temperatureCondition = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $stability_period = null;
+    private ?string $stabilityPeriod = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $preparation_requirements = null;
+    private ?string $preparationRequirements = null;
 
-    public function __construct()
+    public function __construct(string $biomaterial, ContainerEntity $container)
     {
         $this->id = Uuid::v7();
+        $this->biomaterial = $biomaterial;
+
+        $this->container = $container;
     }
 
-    public function getId(): Uuid
-    {
-        return $this->id;
-    }
-
-    public function getBiomaterial(): ?string
+    public function getBiomaterial(): string
     {
         return $this->biomaterial;
     }
@@ -70,7 +68,7 @@ class SpecimenDefinitionEntity
         return $this->container;
     }
 
-    public function setContainerId(ContainerEntity $container): static
+    public function setContainer(ContainerEntity $container): static
     {
         $this->container = $container;
 
@@ -82,7 +80,7 @@ class SpecimenDefinitionEntity
         return $this->filler;
     }
 
-    public function setFiller(string $filler): static
+    public function setFiller(?string $filler): static
     {
         $this->filler = $filler;
 
@@ -91,36 +89,36 @@ class SpecimenDefinitionEntity
 
     public function getTemperatureCondition(): ?string
     {
-        return $this->temperature_condition;
+        return $this->temperatureCondition;
     }
 
-    public function setTemperatureCondition(string $temperature_condition): static
+    public function setTemperatureCondition(?string $temperatureCondition): static
     {
-        $this->temperature_condition = $temperature_condition;
+        $this->temperatureCondition = $temperatureCondition;
 
         return $this;
     }
 
     public function getStabilityPeriod(): ?string
     {
-        return $this->stability_period;
+        return $this->stabilityPeriod;
     }
 
-    public function setStabilityPeriod(string $stability_period): static
+    public function setStabilityPeriod(?string $stabilityPeriod): static
     {
-        $this->stability_period = $stability_period;
+        $this->stabilityPeriod = $stabilityPeriod;
 
         return $this;
     }
 
     public function getPreparationRequirements(): ?string
     {
-        return $this->preparation_requirements;
+        return $this->preparationRequirements;
     }
 
-    public function setPreparationRequirements(string $preparation_requirements): static
+    public function setPreparationRequirements(?string $preparationRequirements): static
     {
-        $this->preparation_requirements = $preparation_requirements;
+        $this->preparationRequirements = $preparationRequirements;
 
         return $this;
     }

@@ -14,7 +14,7 @@ final class Version20260513151429 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Add unique constraint to laboratory_dictionary.specimen_definitions';
     }
 
     public function up(Schema $schema): void

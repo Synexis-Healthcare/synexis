@@ -15,41 +15,41 @@ class TestDefinitionsArchiveEntity
 {
     #[ORM\Id]
     #[ORM\Column(Types::TEXT)]
-    private string $id;
+    public readonly string $id;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $official_name = null;
+    private ?string $officialName = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $short_name = null;
+    private ?string $shortName = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $loinc_code = null;
+    private ?string $loincCode = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $methodology = null;
 
-    #[ORM\Column(type: Types::JSONB, nullable: true, options: ['jsonb' => true])]
-    private $reference_rules_snapshot;
+    #[ORM\Column(type: 'jsonb', nullable: true)]
+    private ?array $referenceRulesSnapshot = null;
 
-    #[ORM\Column(type: Types::JSONB, nullable: true, options: ['jsonb' => true])]
-    private $category_snapshot;
+    #[ORM\Column(type: 'jsonb', nullable: true)]
+    private ?array $categorySnapshot = null;
 
-    #[ORM\Column(type: Types::JSONB, nullable: true, options: ['jsonb' => true])]
-    private $unit_snapshot;
+    #[ORM\Column(type: 'jsonb', nullable: true)]
+    private ?array $unitSnapshot = null;
 
     #[ORM\Id]
     #[ORM\Column(type: Types::INTEGER)]
     private int $version;
 
-    #[ORM\Column(type: Types::JSONB, nullable: true, options: ['jsonb' => true])]
-    private $specimen_definition_snapshot;
+    #[ORM\Column(type: 'jsonb', nullable: true)]
+    private ?array $specimenDefinitionSnapshot = null;
 
     #[ORM\Column(enumType: ValueType::class)]
-    private ?ValueType $value_type = null;
+    private ?ValueType $valueType = null;
 
-    #[ORM\Column(type: 'jsonb', nullable: true, options: ['jsonb' => true])]
-    private $result_options;
+    #[ORM\Column(type: 'jsonb', nullable: true)]
+    private ?array $resultOptions = null;
 
     public function __construct(string $id, int $version)
     {
@@ -57,43 +57,38 @@ class TestDefinitionsArchiveEntity
         $this->version = $version;
     }
 
-    public function getId(): ?string
-    {
-        return $this->id;
-    }
-
     public function getOfficialName(): ?string
     {
-        return $this->official_name;
+        return $this->officialName;
     }
 
-    public function setOfficialName(?string $official_name): static
+    public function setOfficialName(?string $officialName): static
     {
-        $this->official_name = $official_name;
+        $this->officialName = $officialName;
 
         return $this;
     }
 
     public function getShortName(): ?string
     {
-        return $this->short_name;
+        return $this->shortName;
     }
 
-    public function setShortName(?string $short_name): static
+    public function setShortName(?string $shortName): static
     {
-        $this->short_name = $short_name;
+        $this->shortName = $shortName;
 
         return $this;
     }
 
     public function getLoincCode(): ?string
     {
-        return $this->loinc_code;
+        return $this->loincCode;
     }
 
-    public function setLoincCode(?string $loinc_code): static
+    public function setLoincCode(?string $loincCode): static
     {
-        $this->loinc_code = $loinc_code;
+        $this->loincCode = $loincCode;
 
         return $this;
     }
@@ -110,38 +105,38 @@ class TestDefinitionsArchiveEntity
         return $this;
     }
 
-    public function getReferenceRulesSnapshot()
+    public function getReferenceRulesSnapshot(): ?array
     {
-        return $this->reference_rules_snapshot;
+        return $this->referenceRulesSnapshot;
     }
 
-    public function setReferenceRulesSnapshot($reference_rules_snapshot): static
+    public function setReferenceRulesSnapshot(?array $referenceRulesSnapshot): static
     {
-        $this->reference_rules_snapshot = $reference_rules_snapshot;
+        $this->referenceRulesSnapshot = $referenceRulesSnapshot;
 
         return $this;
     }
 
-    public function getCategorySnapshot()
+    public function getCategorySnapshot(): ?array
     {
-        return $this->category_snapshot;
+        return $this->categorySnapshot;
     }
 
-    public function setCategorySnapshot($category_snapshot): static
+    public function setCategorySnapshot(?array $categorySnapshot): static
     {
-        $this->category_snapshot = $category_snapshot;
+        $this->categorySnapshot = $categorySnapshot;
 
         return $this;
     }
 
-    public function getUnitSnapshot()
+    public function getUnitSnapshot(): ?array
     {
-        return $this->unit_snapshot;
+        return $this->unitSnapshot;
     }
 
-    public function setUnitSnapshot($unit_snapshot): static
+    public function setUnitSnapshot(?array $unitSnapshot): static
     {
-        $this->unit_snapshot = $unit_snapshot;
+        $this->unitSnapshot = $unitSnapshot;
 
         return $this;
     }
@@ -158,38 +153,38 @@ class TestDefinitionsArchiveEntity
         return $this;
     }
 
-    public function getSpecimenDefinitionSnapshot()
+    public function getSpecimenDefinitionSnapshot(): ?array
     {
-        return $this->specimen_definition_snapshot;
+        return $this->specimenDefinitionSnapshot;
     }
 
-    public function setSpecimenDefinitionSnapshot($specimen_definition_snapshot): static
+    public function setSpecimenDefinitionSnapshot(?array $specimenDefinitionSnapshot): static
     {
-        $this->specimen_definition_snapshot = $specimen_definition_snapshot;
+        $this->specimenDefinitionSnapshot = $specimenDefinitionSnapshot;
 
         return $this;
     }
 
     public function getValueType(): ?ValueType
     {
-        return $this->value_type;
+        return $this->valueType;
     }
 
-    public function setValueType(ValueType $value_type): static
+    public function setValueType(ValueType $valueType): static
     {
-        $this->value_type = $value_type;
+        $this->valueType = $valueType;
 
         return $this;
     }
 
-    public function getResultOptions()
+    public function getResultOptions(): ?array
     {
-        return $this->result_options;
+        return $this->resultOptions;
     }
 
-    public function setResultOptions($result_options): static
+    public function setResultOptions(?array $resultOptions): static
     {
-        $this->result_options = $result_options;
+        $this->resultOptions = $resultOptions;
 
         return $this;
     }

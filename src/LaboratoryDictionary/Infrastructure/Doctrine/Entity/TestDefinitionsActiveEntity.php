@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: TestDefinitionsActiveEntityRepository::class)]
 #[ORM\Table(
@@ -24,89 +23,96 @@ class TestDefinitionsActiveEntity
 {
     #[ORM\Id]
     #[ORM\Column(Types::TEXT)]
-    private string $id;
+    public readonly string $id;
 
-    #[ORM\Column(type: Types::TEXT, unique: true)]
-    private ?string $official_name = null;
+    #[ORM\Column(type: Types::TEXT, unique: true, nullable: false)]
+    private string $officialName;
 
-    #[ORM\Column(type: Types::TEXT, unique: true)]
-    private ?string $short_name = null;
+    #[ORM\Column(type: Types::TEXT, unique: true, nullable: false)]
+    private string $shortName;
 
-    #[ORM\Column(type: Types::TEXT, unique: true)]
-    private ?string $loinc_code = null;
+    #[ORM\Column(type: Types::TEXT, unique: true, nullable: false)]
+    private string $loincCode;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $methodology = null;
+    #[ORM\Column(type: Types::TEXT, nullable: false)]
+    private string $methodology;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(name: 'category_mnemonic', referencedColumnName: 'mnemonic', nullable: false)]
-    private ?TestCategoriesEntity $category_mnemonic = null;
+    private TestCategoriesEntity $categoryMnemonic;
 
-    #[ORM\Column(type: 'uuid', nullable: false)]
-    private Uuid $unit_id;
+    #[ORM\ManyToOne(targetEntity: UnitEntity::class)]
+    #[ORM\JoinColumn(name: 'unit_id', referencedColumnName: 'id', nullable: false)]
+    private UnitEntity $unit;
 
     #[ORM\Column(Types::INTEGER)]
     private int $version;
 
-    #[ORM\Column(type: 'uuid', nullable: false)]
-    private Uuid $specimen_definition_id;
+    #[ORM\ManyToOne(targetEntity: SpecimenDefinitionEntity::class)]
+    #[ORM\JoinColumn(name: 'specimen_definition_id', referencedColumnName: 'id', nullable: false)]
+    private SpecimenDefinitionEntity $specimenDefinition;
 
-    #[ORM\Column(enumType: ValueType::class)]
-    private ?ValueType $value_type = null;
+    #[ORM\Column(enumType: ValueType::class, nullable: false)]
+    private ValueType $valueType;
 
-    #[ORM\Column(type: Types::JSONB, nullable: true, options: ['jsonb' => true])]
-    private ?array $result_options = null;
+    #[ORM\Column(type: 'jsonb', nullable: true)]
+    private ?array $resultOptions = null;
     #[ORM\OneToMany(targetEntity: ReferenceRulesActiveEntity::class, mappedBy: 'test_definition_active_id')]
-    private Collection $referenceRulesActiveEntity;
+    private Collection $referenceRulesActive;
 
-    public function __construct($id)
+    public function __construct(string $id, string $officialName, string $shortName, string $loincCode, string $methodology,
+        TestCategoriesEntity $categoryMnemonic, UnitEntity $unit, int $version, SpecimenDefinitionEntity $specimenDefinition, ValueType $valueType)
     {
         $this->id = $id;
-        $this->referenceRulesActiveEntity = new ArrayCollection();
+        $this->officialName = $officialName;
+        $this->shortName = $shortName;
+        $this->loincCode = $loincCode;
+        $this->methodology = $methodology;
+        $this->categoryMnemonic = $categoryMnemonic;
+        $this->unit = $unit;
+        $this->version = $version;
+        $this->specimenDefinition = $specimenDefinition;
+        $this->valueType = $valueType;
+        $this->referenceRulesActive = new ArrayCollection();
     }
 
-    public function getId(): string
+    public function getOfficialName(): string
     {
-        return $this->id;
+        return $this->officialName;
     }
 
-    public function getOfficialName(): ?string
+    public function setOfficialName(string $officialName): static
     {
-        return $this->official_name;
-    }
-
-    public function setOfficialName(string $official_name): static
-    {
-        $this->official_name = $official_name;
+        $this->officialName = $officialName;
 
         return $this;
     }
 
-    public function getShortName(): ?string
+    public function getShortName(): string
     {
-        return $this->short_name;
+        return $this->shortName;
     }
 
-    public function setShortName(string $short_name): static
+    public function setShortName(string $shortName): static
     {
-        $this->short_name = $short_name;
+        $this->shortName = $shortName;
 
         return $this;
     }
 
-    public function getLoincCode(): ?string
+    public function getLoincCode(): string
     {
-        return $this->loinc_code;
+        return $this->loincCode;
     }
 
-    public function setLoincCode(string $loinc_code): static
+    public function setLoincCode(string $loincCode): static
     {
-        $this->loinc_code = $loinc_code;
+        $this->loincCode = $loincCode;
 
         return $this;
     }
 
-    public function getMethodology(): ?string
+    public function getMethodology(): string
     {
         return $this->methodology;
     }
@@ -118,31 +124,31 @@ class TestDefinitionsActiveEntity
         return $this;
     }
 
-    public function getCategoryMnemonic(): ?TestCategoriesEntity
+    public function getCategoryMnemonic(): TestCategoriesEntity
     {
-        return $this->category_mnemonic;
+        return $this->categoryMnemonic;
     }
 
-    public function setCategoryMnemonic(?TestCategoriesEntity $category_mnemonic): static
+    public function setCategoryMnemonic(TestCategoriesEntity $categoryMnemonic): static
     {
-        $this->category_mnemonic = $category_mnemonic;
+        $this->categoryMnemonic = $categoryMnemonic;
 
         return $this;
     }
 
-    public function getUnitId(): Uuid
+    public function getUnit(): UnitEntity
     {
-        return $this->unit_id;
+        return $this->unit;
     }
 
-    public function setUnitId(Uuid $unit_id): static
+    public function setUnit(UnitEntity $unit): static
     {
-        $this->unit_id = $unit_id;
+        $this->unit = $unit;
 
         return $this;
     }
 
-    public function getVersion(): ?int
+    public function getVersion(): int
     {
         return $this->version;
     }
@@ -157,52 +163,52 @@ class TestDefinitionsActiveEntity
         return $this;
     }
 
-    public function getSpecimenDefinitionId(): Uuid
+    public function getSpecimenDefinition(): SpecimenDefinitionEntity
     {
-        return $this->specimen_definition_id;
+        return $this->specimenDefinition;
     }
 
-    public function setSpecimenDefinitionId(Uuid $specimen_definition_id): static
+    public function setSpecimenDefinition(SpecimenDefinitionEntity $specimenDefinition): static
     {
-        $this->specimen_definition_id = $specimen_definition_id;
+        $this->specimenDefinition = $specimenDefinition;
 
         return $this;
     }
 
     public function getValueType(): ValueType
     {
-        return $this->value_type;
+        return $this->valueType;
     }
 
-    public function setValueType(ValueType $value_type): static
+    public function setValueType(ValueType $valueType): static
     {
-        $this->value_type = $value_type;
+        $this->valueType = $valueType;
 
         return $this;
     }
 
     public function getResultOptions(): ?array
     {
-        return $this->result_options;
+        return $this->resultOptions;
     }
 
-    public function setResultOptions(?array $result_options): static
+    public function setResultOptions(?array $resultOptions): static
     {
-        $this->result_options = $result_options;
+        $this->resultOptions = $resultOptions;
 
         return $this;
     }
 
-    public function getReferenceRulesActiveEntity(): Collection
+    public function getReferenceRulesActive(): array
     {
-        return $this->referenceRulesActiveEntity;
+        return $this->referenceRulesActive->toArray();
     }
 
     public function addReferenceRule(ReferenceRulesActiveEntity $rule): static
     {
-        if (!$this->referenceRulesActiveEntity->contains($rule)) {
-            $this->referenceRulesActiveEntity->add($rule);
-            $rule->setTestDefinitionId($this);
+        if (!$this->referenceRulesActive->contains($rule)) {
+            $this->referenceRulesActive->add($rule);
+            $rule->setTestDefinition($this);
         }
 
         return $this;
@@ -210,11 +216,7 @@ class TestDefinitionsActiveEntity
 
     public function removeReferenceRule(ReferenceRulesActiveEntity $rule): static
     {
-        if ($this->referenceRulesActiveEntity->removeElement($rule)) {
-            if ($rule->getTestDefinitionId() === $this) {
-                $rule->setTestDefinitionId(null);
-            }
-        }
+        $this->referenceRulesActive->removeElement($rule);
 
         return $this;
     }

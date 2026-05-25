@@ -14,7 +14,7 @@ final class Version20260513111610 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Create laboratory_dictionary.units table';
     }
 
     public function up(Schema $schema): void

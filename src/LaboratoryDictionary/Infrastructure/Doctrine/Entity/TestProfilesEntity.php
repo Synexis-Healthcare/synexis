@@ -16,10 +16,10 @@ class TestProfilesEntity
 {
     #[ORM\Id]
     #[ORM\Column(type: Types::TEXT)]
-    private string $code;
+    public readonly string $code;
 
-    #[ORM\Column(type: Types::TEXT, unique: true)]
-    private ?string $title = null;
+    #[ORM\Column(type: Types::TEXT, nullable: false, unique: true)]
+    private string $title;
     #[ORM\ManyToMany(targetEntity: TestDefinitionsActiveEntity::class)]
     #[ORM\JoinTable(
         name: 'test_profile_test_definitions',
@@ -29,18 +29,14 @@ class TestProfilesEntity
     )]
     private Collection $testDefinitions;
 
-    public function __construct(string $code)
+    public function __construct(string $code, string $title)
     {
         $this->code = $code;
+        $this->title = $title;
         $this->testDefinitions = new ArrayCollection();
     }
 
-    public function getCode(): string
-    {
-        return $this->code;
-    }
-
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -52,9 +48,9 @@ class TestProfilesEntity
         return $this;
     }
 
-    public function getTestDefinitions(): Collection
+    public function getTestDefinitions(): array
     {
-        return $this->testDefinitions;
+        return $this->testDefinitions->toArray();
     }
 
     public function addTestDefinition(TestDefinitionsActiveEntity $testDefinition): static

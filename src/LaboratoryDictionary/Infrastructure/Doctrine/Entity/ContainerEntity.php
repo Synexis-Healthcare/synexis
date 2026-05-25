@@ -22,36 +22,31 @@ class ContainerEntity
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
-    private Uuid $id;
+    public readonly Uuid $id;
+
     #[ORM\OneToMany(targetEntity: SpecimenDefinitionEntity::class, mappedBy: 'container')]
     private Collection $specimenDefinitions;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $colorTitle = null;
-
-    public function getSpecimenDefinitions(): Collection
-    {
-        return $this->specimenDefinitions;
-    }
-
+    private string $colorTitle;
     #[ORM\Column(type: Types::STRING, length: 7)]
-    private ?string $colorHex = null;
+    private string $colorHex;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 4)]
-    private ?string $volume = null;
+    private string $volume;
 
-    public function __construct()
+    public function __construct(string $colorTitle, string $colorHex, string $volume)
     {
         $this->id = Uuid::v7();
+
         $this->specimenDefinitions = new ArrayCollection();
+
+        $this->colorTitle = $colorTitle;
+        $this->colorHex = $colorHex;
+        $this->volume = $volume;
     }
 
-    public function getId(): Uuid
-    {
-        return $this->id;
-    }
-
-    public function getColorTitle(): ?string
+    public function getColorTitle(): string
     {
         return $this->colorTitle;
     }
@@ -63,7 +58,7 @@ class ContainerEntity
         return $this;
     }
 
-    public function getColorHex(): ?string
+    public function getColorHex(): string
     {
         return $this->colorHex;
     }
@@ -75,7 +70,7 @@ class ContainerEntity
         return $this;
     }
 
-    public function getVolume(): ?string
+    public function getVolume(): string
     {
         return $this->volume;
     }
@@ -85,5 +80,10 @@ class ContainerEntity
         $this->volume = $volume;
 
         return $this;
+    }
+
+    public function getSpecimenDefinitions(): array
+    {
+        return $this->specimenDefinitions->toArray();
     }
 }

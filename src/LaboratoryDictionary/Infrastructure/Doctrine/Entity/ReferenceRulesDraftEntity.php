@@ -24,56 +24,50 @@ use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 class ReferenceRulesDraftEntity
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: Types::INTEGER)]
+    public readonly int $id;
     #[ORM\ManyToOne(targetEntity: TestDefinitionsDraftEntity::class, inversedBy: 'referenceRulesDraftEntity')]
-    #[ORM\JoinColumn(name: 'test_definition_draft_id', referencedColumnName: 'id', nullable: false)]
-    private ?TestDefinitionsDraftEntity $test_definition_draft_id = null;
-
+    #[ORM\JoinColumn(name: 'test_definition_id', referencedColumnName: 'id', nullable: false)]
+    private TestDefinitionsDraftEntity $testDefinition;
     #[ORM\Column(enumType: Gender::class)]
-    private ?Gender $gender = null;
-
+    private Gender $gender;
     #[ORM\Column(type: 'int4range', nullable: true)]
-    private ?Range $age_days_range = null;
-
+    private ?Range $ageDaysRange = null;
     #[ORM\Column(nullable: true, enumType: PregnancyTrimester::class)]
-    private ?PregnancyTrimester $pregnancy_trimester = null;
-
+    private ?PregnancyTrimester $pregnancyTrimester = null;
     #[ORM\Column(nullable: true, enumType: MenstrualPhase::class)]
-    private ?MenstrualPhase $menstrual_phase = null;
-
-    #[ORM\Column(type: Types::JSONB, options: ['jsonb' => true])]
-    private $normality_rule;
-
-    #[ORM\Column(type: Types::JSONB, nullable: true, options: ['jsonb' => true])]
-    private $criticality_rule;
-
-    #[ORM\Column(type: Types::JSONB, nullable: true, options: ['jsonb' => true])]
-    private $interpretation_rule;
-
+    private ?MenstrualPhase $menstrualPhase = null;
+    #[ORM\Column(type: 'jsonb')]
+    private array $normalityRule;
+    #[ORM\Column(type: 'jsonb', nullable: true)]
+    private ?array $criticalityRule = null;
+    #[ORM\Column(type: 'jsonb', nullable: true)]
+    private ?array $interpretationRule = null;
     #[ORM\Column]
-    private ?int $priority = null;
+    private int $priority;
 
-    public function getId(): ?int
+    public function __construct(TestDefinitionsDraftEntity $testDefinition, Gender $gender, array $normalityRule, int $priority)
     {
-        return $this->id;
+        $this->testDefinition = $testDefinition;
+        $this->gender = $gender;
+        $this->normalityRule = $normalityRule;
+        $this->priority = $priority;
     }
 
-    public function getTestDefinitionId(): ?TestDefinitionsDraftEntity
+    public function getTestDefinition(): TestDefinitionsDraftEntity
     {
-        return $this->test_definition_draft_id;
+        return $this->testDefinition;
     }
 
-    public function setTestDefinition(?TestDefinitionsDraftEntity $test_definition_draft_id): static
+    public function setTestDefinition(TestDefinitionsDraftEntity $testDefinition): static
     {
-        $this->test_definition_draft_id = $test_definition_draft_id;
+        $this->testDefinition = $testDefinition;
 
         return $this;
     }
 
-    public function getGender(): ?Gender
+    public function getGender(): Gender
     {
         return $this->gender;
     }
@@ -87,83 +81,86 @@ class ReferenceRulesDraftEntity
 
     public function getAgeDaysRange(): ?Range
     {
-        return $this->age_days_range;
+        return $this->ageDaysRange;
     }
 
-    public function setAgeDaysRange(?Range $age_days_range): static
+    public function setAgeDaysRange(?Range $ageDaysRange): static
     {
-        $this->age_days_range = $age_days_range;
+        $this->ageDaysRange = $ageDaysRange;
 
         return $this;
     }
 
     public function getPregnancyTrimester(): ?PregnancyTrimester
     {
-        return $this->pregnancy_trimester;
+        return $this->pregnancyTrimester;
     }
 
-    public function setPregnancyTrimester(?PregnancyTrimester $pregnancy_trimester): static
+    public function setPregnancyTrimester(?PregnancyTrimester $pregnancyTrimester): static
     {
-        $this->pregnancy_trimester = $pregnancy_trimester;
+        $this->pregnancyTrimester = $pregnancyTrimester;
 
         return $this;
     }
 
     public function getMenstrualPhase(): ?MenstrualPhase
     {
-        return $this->menstrual_phase;
+        return $this->menstrualPhase;
     }
 
-    public function setMenstrualPhase(?MenstrualPhase $menstrual_phase): static
+    public function setMenstrualPhase(?MenstrualPhase $menstrualPhase): static
     {
-        $this->menstrual_phase = $menstrual_phase;
+        $this->menstrualPhase = $menstrualPhase;
 
         return $this;
     }
 
-    public function getNormalityRule()
+    public function getNormalityRule(): array
     {
-        return $this->normality_rule;
+        return $this->normalityRule;
     }
 
-    public function setNormalityRule($normality_rule): static
+    public function setNormalityRule(array $normalityRule): static
     {
-        $this->normality_rule = $normality_rule;
+        $this->normalityRule = $normalityRule;
 
         return $this;
     }
 
-    public function getCriticalityRule()
+    public function getCriticalityRule(): ?array
     {
-        return $this->criticality_rule;
+        return $this->criticalityRule;
     }
 
-    public function setCriticalityRule($criticality_rule): static
+    public function setCriticalityRule(?array $criticalityRule): static
     {
-        $this->criticality_rule = $criticality_rule;
+        $this->criticalityRule = $criticalityRule;
 
         return $this;
     }
 
-    public function getInterpretationRule()
+    public function getInterpretationRule(): ?array
     {
-        return $this->interpretation_rule;
+        return $this->interpretationRule;
     }
 
-    public function setInterpretationRule($interpretation_rule): static
+    public function setInterpretationRule(?array $interpretationRule): static
     {
-        $this->interpretation_rule = $interpretation_rule;
+        $this->interpretationRule = $interpretationRule;
 
         return $this;
     }
 
-    public function getPriority(): ?int
+    public function getPriority(): int
     {
         return $this->priority;
     }
 
     public function setPriority(int $priority): static
     {
+        if ($priority < 0) {
+            throw new \InvalidArgumentException('Priority cannot be negative');
+        }
         $this->priority = $priority;
 
         return $this;

@@ -17,29 +17,4 @@ class ReferenceRulesDraftEntityRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ReferenceRulesDraftEntity::class);
     }
-
-    //    /**
-    //     * @return ReferenceRulesDraftEntity[] Returns an array of ReferenceRulesDraftEntity objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('r.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?ReferenceRulesDraftEntity
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

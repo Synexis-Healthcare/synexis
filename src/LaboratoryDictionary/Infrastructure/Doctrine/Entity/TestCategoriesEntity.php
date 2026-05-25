@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\LaboratoryDictionary\Infrastructure\Doctrine\Entity;
 
 use App\LaboratoryDictionary\Infrastructure\Doctrine\Repository\TestCategoriesEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,26 +16,23 @@ class TestCategoriesEntity
 {
     #[ORM\Id]
     #[ORM\Column(type: Types::TEXT)]
-    private string $mnemonic;
+    public readonly string $mnemonic;
+    #[ORM\OneToMany(targetEntity: TestDefinitionsDraftEntity::class, mappedBy: 'categoryMnemonic')]
+    private Collection $testDefinitions;
 
     #[ORM\Column(type: Types::TEXT, unique: true)]
     private string $title;
 
-    public function __construct(string $mnemonic)
+    public function __construct(string $mnemonic, string $title)
     {
         $this->mnemonic = $mnemonic;
+        $this->title = $title;
+        $this->testDefinitions = new ArrayCollection();
     }
 
-    public function getMnemonic(): string
+    public function getTestDefinitions(): array
     {
-        return $this->mnemonic;
-    }
-
-    public function setMnemonic(string $mnemonic): static
-    {
-        $this->mnemonic = $mnemonic;
-
-        return $this;
+        return $this->testDefinitions->toArray();
     }
 
     public function getTitle(): string
