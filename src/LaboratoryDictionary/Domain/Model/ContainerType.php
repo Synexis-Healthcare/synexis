@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\LaboratoryDictionary\Domain\Model;
 
-use App\LaboratoryDictionary\Domain\Builder\ContainerTypeBuilder;
+use App\LaboratoryDictionary\Domain\Builder\ContainerBuilder;
 use Symfony\Component\Uid\Uuid;
 
 final class ContainerType
@@ -37,8 +37,8 @@ final class ContainerType
         return $this->volume;
     }
 
-    public function toBuilder(): ContainerTypeBuilder
+    public function toBuilder(): ContainerBuilder
     {
-        return ContainerTypeBuilder::from($this);
+        return ContainerBuilder::from($this);
     }
 }

@@ -7,7 +7,7 @@ namespace App\LaboratoryDictionary\Domain\Builder;
 use App\LaboratoryDictionary\Domain\Model\ContainerType;
 use Symfony\Component\Uid\Uuid;
 
-class ContainerTypeBuilder
+class ContainerBuilder
 {
     private Uuid $id;
     private ?string $colorTitle = null;
