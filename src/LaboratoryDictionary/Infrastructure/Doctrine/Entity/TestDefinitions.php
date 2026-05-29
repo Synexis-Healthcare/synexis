@@ -18,6 +18,7 @@ abstract class TestDefinitions
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     public protected(set) ?string $officialName = null;
 
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     public protected(set) ?string $shortName = null;
 

@@ -38,8 +38,8 @@ use Doctrine\ORM\Mapping as ORM;
 class TestDefinitionsActiveEntity extends TestDefinitionsLiveEntity
 {
     /** @var Collection<int, ReferenceRulesActiveEntity> */
-    #[ORM\OneToMany(targetEntity: ReferenceRulesActiveEntity::class, mappedBy: 'testDefinition', orphanRemoval: true)]
-    private Collection $referenceRulesCollection;
+    #[ORM\OneToMany(targetEntity: ReferenceRulesActiveEntity::class, mappedBy: 'testDefinitionActive', orphanRemoval: true)]
+    private Collection $referenceRulesActive;
 
     public function __construct(
         string $id,
@@ -66,17 +66,17 @@ class TestDefinitionsActiveEntity extends TestDefinitionsLiveEntity
             $valueType
         );
 
-        $this->referenceRulesCollection = new ArrayCollection();
+        $this->referenceRulesActive  = new ArrayCollection();
     }
 
-    public array $referenceRulesActive {
-        get => $this->referenceRulesCollection->toArray();
+    public array $referenceRules {
+        get => $this->referenceRulesActive ->toArray();
     }
 
     public function addReferenceRule(ReferenceRulesActiveEntity $rule): static
     {
-        if (!$this->referenceRulesCollection->contains($rule)) {
-            $this->referenceRulesCollection->add($rule);
+        if (!$this->referenceRulesActive->contains($rule)) {
+            $this->referenceRulesActive->add($rule);
             $rule->setTestDefinition($this);
         }
 
@@ -85,7 +85,7 @@ class TestDefinitionsActiveEntity extends TestDefinitionsLiveEntity
 
     public function removeReferenceRule(ReferenceRulesActiveEntity $rule): static
     {
-        $this->referenceRulesCollection->removeElement($rule);
+        $this->referenceRulesActive->removeElement($rule);
 
         return $this;
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\LaboratoryDictionary\Infrastructure\Doctrine\Migrations;
+namespace App\LaboratoryDictionary\Infrastructure\Doctrine\Migrations\Initial;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -26,8 +26,8 @@ final class Version20260513111610 extends AbstractMigration
                      description TEXT DEFAULT NULL,
                      classification laboratory_dictionary.unit_classification NOT NULL,
                      PRIMARY KEY (id))');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_E91F4E2577153098 ON laboratory_dictionary.units (code)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_E91F4E252B36786B ON laboratory_dictionary.units (title)');
+        $this->addSql('CREATE UNIQUE INDEX uq_units_code ON laboratory_dictionary.units (code)');
+        $this->addSql('CREATE UNIQUE INDEX uq_units_title ON laboratory_dictionary.units (title)');
     }
 
     public function down(Schema $schema): void

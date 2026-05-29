@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\LaboratoryDictionary\Infrastructure\Doctrine\Migrations;
+namespace App\LaboratoryDictionary\Infrastructure\Doctrine\Migrations\Initial;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -24,7 +24,7 @@ final class Version20260513153346 extends AbstractMigration
                title TEXT NOT NULL,
                PRIMARY KEY (mnemonic))');
 
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_4269ABC32B36786B ON laboratory_dictionary.test_categories (title)');
+        $this->addSql('CREATE UNIQUE INDEX uq_test_categories_title ON laboratory_dictionary.test_categories (title)');
     }
 
     public function down(Schema $schema): void

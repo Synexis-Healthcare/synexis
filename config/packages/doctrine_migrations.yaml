@@ -2,7 +2,9 @@ doctrine_migrations:
     enable_profiler: '%kernel.debug%'
     em: laboratory
     migrations_paths:
-        'App\LaboratoryDictionary\Infrastructure\Doctrine\Migrations': '%kernel.project_dir%/src/LaboratoryDictionary/Infrastructure/Doctrine/Migrations'
+        'App\LaboratoryDictionary\Infrastructure\Doctrine\Migrations\Initial': '%kernel.project_dir%/src/LaboratoryDictionary/Infrastructure/Doctrine/Migrations/Initial'
+
     storage:
         table_storage:
             table_name: 'doctrine_migration_versions_laboratory'
+
