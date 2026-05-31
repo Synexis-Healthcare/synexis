@@ -18,9 +18,9 @@ enum AgeUnit: string
     public function label(): string
     {
         return match ($this) {
-            self::DAYS => 'Дни',
+            self::DAYS   => 'Дни',
             self::MONTHS => 'Месяцы',
-            self::YEARS => 'Года',
+            self::YEARS  => 'Года',
         };
     }
 }

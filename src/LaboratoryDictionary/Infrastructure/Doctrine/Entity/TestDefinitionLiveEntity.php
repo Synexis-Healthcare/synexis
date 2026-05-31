@@ -9,14 +9,14 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\MappedSuperclass]
-abstract class TestDefinitionsLiveEntity extends TestDefinitions
+abstract class TestDefinitionLiveEntity extends TestDefinition
 {
     #[ORM\Column(type: Types::INTEGER, nullable: false)]
     private int $version;
 
-    #[ORM\ManyToOne(targetEntity: TestCategoriesEntity::class)]
+    #[ORM\ManyToOne(targetEntity: TestCategoryEntity::class)]
     #[ORM\JoinColumn(name: 'category_mnemonic', referencedColumnName: 'mnemonic', nullable: false)]
-    private TestCategoriesEntity $categoryMnemonic;
+    private TestCategoryEntity $categoryMnemonic;
 
     #[ORM\ManyToOne(targetEntity: UnitEntity::class)]
     #[ORM\JoinColumn(name: 'unit_id', referencedColumnName: 'id', nullable: false)]
@@ -32,7 +32,7 @@ abstract class TestDefinitionsLiveEntity extends TestDefinitions
         string $shortName,
         string $loincCode,
         string $methodology,
-        TestCategoriesEntity $categoryMnemonic,
+        TestCategoryEntity $categoryMnemonic,
         UnitEntity $unit,
         int $version,
         SpecimenDefinitionEntity $specimenDefinition,
@@ -68,7 +68,7 @@ abstract class TestDefinitionsLiveEntity extends TestDefinitions
         return $this;
     }
 
-    public function getCategoryMnemonic(): TestCategoriesEntity
+    public function getCategoryMnemonic(): TestCategoryEntity
     {
         return $this->categoryMnemonic;
     }

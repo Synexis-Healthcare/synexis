@@ -44,8 +44,6 @@ final class Version20260529101946 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX uq_test_definitions_active_loinc_code ON laboratory_dictionary.test_definitions_active (loinc_code)');
         $this->addSql('CREATE INDEX idx_category_mnemonic ON laboratory_dictionary.test_definitions_active (category_mnemonic)');
         $this->addSql('ALTER TABLE laboratory_dictionary.test_definitions_active ADD CONSTRAINT chk_version CHECK (version >= 0)');
-
-
     }
 
     public function down(Schema $schema): void
@@ -54,6 +52,5 @@ final class Version20260529101946 extends AbstractMigration
         $this->addSql('ALTER TABLE laboratory_dictionary.test_definitions_active DROP CONSTRAINT FK_unit');
         $this->addSql('ALTER TABLE laboratory_dictionary.test_definitions_active DROP CONSTRAINT FK_specimen_definition');
         $this->addSql('DROP TABLE laboratory_dictionary.test_definitions_active');
-
     }
 }

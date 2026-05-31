@@ -66,7 +66,8 @@ class UnitBuilder
         if (null === $this->code || '' === trim($this->code)) {
             throw new \InvalidArgumentException('Unit code is required');
         }
-        if (isset($this->id)) {
+
+        if (!isset($this->id)) {
             throw new \InvalidArgumentException('Unit id is required');
         }
 

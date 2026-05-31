@@ -47,6 +47,7 @@ class TestCategoryBuilder
         if (null === $this->title || '' === trim($this->title)) {
             throw new \InvalidArgumentException('Category title is required');
         }
+
         if (null === $this->mnemonic || '' === trim($this->mnemonic)) {
             throw new \InvalidArgumentException('Category mnemonic is required');
         }

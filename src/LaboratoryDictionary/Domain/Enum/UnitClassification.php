@@ -15,9 +15,9 @@ enum UnitClassification: string
     public function label(): string
     {
         return match ($this) {
-            self::CONCENTRATION => 'Концентрация',
-            self::MASS => 'Масса',
-            self::VOLUME => 'Объём',
+            self::CONCENTRATION   => 'Концентрация',
+            self::MASS            => 'Масса',
+            self::VOLUME          => 'Объём',
             self::ENZYME_ACTIVITY => 'Активность фермента',
         };
     }

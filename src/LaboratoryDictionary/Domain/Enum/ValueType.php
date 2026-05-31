@@ -14,7 +14,7 @@ enum ValueType: string
     {
         return match ($this) {
             self::QUANTITATIVE => 'Количественное' ,
-            self::QUALITATIVE => 'Качественное' ,
+            self::QUALITATIVE  => 'Качественное' ,
         };
     }
 }

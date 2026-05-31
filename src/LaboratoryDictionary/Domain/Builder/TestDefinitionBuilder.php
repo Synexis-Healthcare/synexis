@@ -66,14 +66,14 @@ class TestDefinitionBuilder
         return $this;
     }
 
-    public function withMethodology(string $methodology): self
+    public function withMethodology(?string $methodology): self
     {
         $this->methodology = $methodology;
 
         return $this;
     }
 
-    public function withUnit(Unit $unit): self
+    public function withUnit(?Unit $unit): self
     {
         $this->unit = $unit;
 
@@ -131,7 +131,7 @@ class TestDefinitionBuilder
             ->withOfficialName($testDefinition->getOfficialName())
             ->withShortName($testDefinition->getShortName())
             ->withLoincCode($testDefinition->getLoincCode())
-            ->withCategory($testDefinition->getCategory())
+            ->withCategory($testDefinition->getCategory() ?? throw new \InvalidArgumentException('Category is required'))
             ->withMethodology($testDefinition->getMethodology())
             ->withUnit($testDefinition->getUnit())
             ->withVersion($testDefinition->getVersion())
@@ -139,7 +139,7 @@ class TestDefinitionBuilder
             ->withRules($testDefinition->getRules())
             ->withSpecimen($testDefinition->getSpecimen())
             ->withValueType($testDefinition->getValueType())
-            ->withResultOptions($testDefinition->getResultOptions());
+            ->withResultOptions($testDefinition->getResultOptions() ?? []);
     }
 
     public function build(): TestDefinition
@@ -148,10 +148,10 @@ class TestDefinitionBuilder
             $this->id ?? throw new \InvalidArgumentException('Id is required'),
             $this->officialName ?? throw new \InvalidArgumentException('Official name is required'),
             $this->shortName ?? throw new \InvalidArgumentException('Short name is required'),
-            $this->loincCode ?? throw new \InvalidArgumentException('Short loincCode is required'),
+            $this->loincCode,
             $this->category ?? throw new \InvalidArgumentException('Category is required'),
-            $this->methodology ?? throw new \InvalidArgumentException('Methodology is required'),
-            $this->unit ?? throw new \InvalidArgumentException('Unit is required'),
+            $this->methodology,
+            $this->unit,
             $this->version,
             $this->status ?? throw new \InvalidArgumentException('Status is required'),
             $this->rules,

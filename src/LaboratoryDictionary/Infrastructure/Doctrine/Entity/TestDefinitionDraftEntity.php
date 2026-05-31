@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\LaboratoryDictionary\Infrastructure\Doctrine\Entity;
 
 use App\LaboratoryDictionary\Domain\Enum\ValueType;
-use App\LaboratoryDictionary\Infrastructure\Doctrine\Repository\TestDefinitionsActiveEntityRepository;
+use App\LaboratoryDictionary\Infrastructure\Doctrine\Repository\TestDefinitionDraftEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TestDefinitionsActiveEntityRepository::class)]
+#[ORM\Entity(repositoryClass: TestDefinitionDraftEntityRepository::class)]
 #[ORM\AttributeOverrides([
     new ORM\AttributeOverride(
         name: 'officialName',
@@ -34,12 +34,14 @@ use Doctrine\ORM\Mapping as ORM;
         column: new ORM\Column(type: 'string', enumType: ValueType::class, nullable: false)
     ),
 ])]
-#[ORM\Table(name: 'test_definitions_active', schema: 'laboratory_dictionary', options: ['check' => 'version >= 0'])]
-class TestDefinitionsActiveEntity extends TestDefinitionsLiveEntity
+#[ORM\Table(name: 'test_definitions_draft', schema: 'laboratory_dictionary', options: ['check' => 'version >= 0'])]
+
+class TestDefinitionDraftEntity extends TestDefinitionLiveEntity
 {
-    /** @var Collection<int, ReferenceRulesActiveEntity> */
-    #[ORM\OneToMany(targetEntity: ReferenceRulesActiveEntity::class, mappedBy: 'testDefinitionActive', orphanRemoval: true)]
-    private Collection $referenceRulesActive;
+    /** @var Collection<int, ReferenceRuleDraftEntity> */
+    #[ORM\OneToMany(targetEntity: ReferenceRuleDraftEntity::class, mappedBy: 'testDefinitionDrafts', orphanRemoval: true)]
+
+    private Collection $referenceRuleDraftEntity;
 
     public function __construct(
         string $id,
@@ -47,7 +49,7 @@ class TestDefinitionsActiveEntity extends TestDefinitionsLiveEntity
         string $shortName,
         string $loincCode,
         string $methodology,
-        TestCategoriesEntity $categoryMnemonic,
+        TestCategoryEntity $categoryMnemonic,
         UnitEntity $unit,
         int $version,
         SpecimenDefinitionEntity $specimenDefinition,
@@ -66,26 +68,26 @@ class TestDefinitionsActiveEntity extends TestDefinitionsLiveEntity
             $valueType
         );
 
-        $this->referenceRulesActive  = new ArrayCollection();
+        $this->referenceRuleDraftEntity = new ArrayCollection();
     }
 
-    public array $referenceRules {
-        get => $this->referenceRulesActive ->toArray();
+    public array $referenceRule {
+        get => $this->referenceRuleDraftEntity->toArray();
     }
 
-    public function addReferenceRule(ReferenceRulesActiveEntity $rule): static
+    public function addReferenceRule(ReferenceRuleDraftEntity $rule): static
     {
-        if (!$this->referenceRulesActive->contains($rule)) {
-            $this->referenceRulesActive->add($rule);
+        if (!$this->referenceRuleDraftEntity->contains($rule)) {
+            $this->referenceRuleDraftEntity->add($rule);
             $rule->setTestDefinition($this);
         }
 
         return $this;
     }
 
-    public function removeReferenceRule(ReferenceRulesActiveEntity $rule): static
+    public function removeReferenceRule(ReferenceRuleDraftEntity $rule): static
     {
-        $this->referenceRulesActive->removeElement($rule);
+        $this->referenceRuleDraftEntity->removeElement($rule);
 
         return $this;
     }

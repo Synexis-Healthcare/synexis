@@ -30,7 +30,8 @@ final class Version20260513103729 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->addSql('DROP TYPE
+        $this->addSql(
+            'DROP TYPE
         laboratory_dictionary.age_unit,
         laboratory_dictionary.gender,
         laboratory_dictionary.menstrual_phase,

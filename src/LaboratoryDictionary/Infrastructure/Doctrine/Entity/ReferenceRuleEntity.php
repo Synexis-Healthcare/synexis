@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use MartinGeorgiev\Doctrine\DBAL\Types\ValueObject\Range;
 
 #[ORM\MappedSuperclass]
-abstract class ReferenceRulesEntity
+abstract class ReferenceRuleEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -36,17 +36,17 @@ abstract class ReferenceRulesEntity
     #[ORM\Column]
     private int $priority;
 
-    public function __construct(  Gender $gender,
-                                  array $normalityRule,
-                                  int $priority)
-    {
-
+    public function __construct(
+        Gender $gender,
+        array $normalityRule,
+        int $priority,
+    ) {
         $this->gender = $gender;
         $this->normalityRule = $normalityRule;
         $this->priority = $priority;
     }
 
-        public function getGender(): Gender
+    public function getGender(): Gender
     {
         return $this->gender;
     }

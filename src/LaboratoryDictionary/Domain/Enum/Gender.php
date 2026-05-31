@@ -18,9 +18,9 @@ enum Gender: string
     public function label(): string
     {
         return match ($this) {
-            self::MALE => 'Мужской',
+            self::MALE   => 'Мужской',
             self::FEMALE => 'Женский',
-            self::ANY => 'Любой',
+            self::ANY    => 'Любой',
         };
     }
 }

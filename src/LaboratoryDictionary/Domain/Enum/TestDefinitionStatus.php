@@ -17,9 +17,9 @@ enum TestDefinitionStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::ACTIVE => 'Доступен для заказа',
+            self::ACTIVE     => 'Доступен для заказа',
             self::DEPRECATED => 'Снят с использования',
-            self::DRAFT => 'Черновик',
+            self::DRAFT      => 'Черновик',
         };
     }
 }

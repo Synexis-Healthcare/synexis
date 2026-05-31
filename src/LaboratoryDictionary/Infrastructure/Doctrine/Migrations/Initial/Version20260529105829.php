@@ -25,14 +25,10 @@ final class Version20260529105829 extends AbstractMigration
                      PRIMARY KEY (code))');
 
         $this->addSql('CREATE UNIQUE INDEX uq_test_profiles_title ON laboratory_dictionary.test_profiles (title)');
-
-
-
     }
 
     public function down(Schema $schema): void
     {
         $this->addSql('DROP Table laboratory_dictionary.test_profiles');
-
     }
 }

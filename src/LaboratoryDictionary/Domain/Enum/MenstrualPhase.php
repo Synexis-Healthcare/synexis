@@ -20,10 +20,10 @@ enum MenstrualPhase: string
     public function label(): string
     {
         return match ($this) {
-            self::FOLLICULAR => 'Фолликулярная фаза',
-            self::OVULATORY => 'Овуляторная фаза',
-            self::LUTEAL => 'Лютеиновая фаза',
-            self::MENOPAUSE => 'Менопауза',
+            self::FOLLICULAR    => 'Фолликулярная фаза',
+            self::OVULATORY     => 'Овуляторная фаза',
+            self::LUTEAL        => 'Лютеиновая фаза',
+            self::MENOPAUSE     => 'Менопауза',
             self::POSTMENOPAUSE => 'Постменопауза',
         };
     }

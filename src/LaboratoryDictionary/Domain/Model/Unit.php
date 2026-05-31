@@ -14,7 +14,7 @@ final class Unit
         private readonly Uuid $id,
         private readonly string $code,
         private readonly string $title,
-        private readonly string $description,
+        private readonly ?string $description,
         private readonly UnitClassification $classification,
     ) {
     }
@@ -34,7 +34,7 @@ final class Unit
         return $this->title;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }

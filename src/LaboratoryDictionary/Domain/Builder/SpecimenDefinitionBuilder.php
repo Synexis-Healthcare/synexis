@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\LaboratoryDictionary\Domain\Builder;
 
-use App\LaboratoryDictionary\Domain\Model\ContainerType;
+use App\LaboratoryDictionary\Domain\Model\Container;
 use App\LaboratoryDictionary\Domain\Model\SpecimenDefinition;
 use Symfony\Component\Uid\Uuid;
 
@@ -12,7 +12,7 @@ class SpecimenDefinitionBuilder
 {
     private Uuid $id;
     private string $biomaterial;
-    private ContainerType $containerType;
+    private Container $containerType;
     private ?string $filler = null;
     private string $temperatureCondition;
     private string $stabilityPeriod;
@@ -32,7 +32,7 @@ class SpecimenDefinitionBuilder
         return $this;
     }
 
-    public function withContainerType(ContainerType $type): self
+    public function withContainer(Container $type): self
     {
         $this->containerType = $type;
 
@@ -72,7 +72,7 @@ class SpecimenDefinitionBuilder
         return new self()
         ->withId($specimen->getId())
         ->withBiomaterial($specimen->getBiomaterial())
-        ->withContainerType($specimen->getContainerType())
+        ->withContainer($specimen->getContainer())
         ->withFiller($specimen->getFiller() ?: null)
         ->withTemperatureCondition($specimen->getTemperatureCondition())
         ->withStability($specimen->getStabilityPeriod())

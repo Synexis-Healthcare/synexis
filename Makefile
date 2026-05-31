@@ -37,7 +37,7 @@ test: warmup ## Полная проверка проекта
 ## -------- Очистка --------
 
 clean: ## Очистить кэш
-	rm -rf var/cache/*
+	php bin/console cache:clear
 
 # ------- Создать миграцию------
 mig-diff: ## Generate a new migration based on changes

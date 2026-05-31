@@ -13,9 +13,9 @@ class ReferenceRuleBuilder
     private Uuid $id;
     private ?string $testId = null;
     private ?ReferencePolicy $policy = null;
-    private ?array $normalityRule = [];
-    private ?array $criticalityRule = [];
-    private ?array $interpretationRule = [];
+    private ?array $normalityRule = null;
+    private ?array $criticalityRule = null;
+    private ?array $interpretationRule = null;
     private int $priority = 0;
 
     public function withId(Uuid $id): self
@@ -82,7 +82,7 @@ class ReferenceRuleBuilder
     public function build(): ReferenceRule
     {
         return new ReferenceRule(
-            $this->id,
+            $this->id ?? throw new \InvalidArgumentException('Id is required for ReferenceRule'),
             $this->testId ?? throw new \InvalidArgumentException('Test ID is required for ReferenceRule'),
             $this->policy ?? throw new \InvalidArgumentException('Policy is required for ReferenceRule'),
             $this->normalityRule,

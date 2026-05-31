@@ -33,13 +33,10 @@ final class Version20260529105215 extends AbstractMigration
                      value_type laboratory_dictionary.value_type NOT NULL,
                      result_options JSONB DEFAULT NULL,
                      PRIMARY KEY (id, version))');
-
-
     }
 
     public function down(Schema $schema): void
     {
         $this->addSql('DROP TABLE laboratory_dictionary.test_definitions_archive');
-
     }
 }

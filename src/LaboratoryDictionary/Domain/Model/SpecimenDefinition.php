@@ -12,7 +12,7 @@ final class SpecimenDefinition
     public function __construct(
         private readonly Uuid $id,
         private readonly string $biomaterial,
-        private readonly ContainerType $containerType,
+        private readonly Container $container,
         private readonly ?string $filler,
         private readonly string $temperatureCondition,
         private readonly string $stabilityPeriod,
@@ -20,9 +20,9 @@ final class SpecimenDefinition
     ) {
     }
 
-    public function getContainerType(): ContainerType
+    public function getContainer(): Container
     {
-        return $this->containerType;
+        return $this->container;
     }
 
     public function getId(): Uuid

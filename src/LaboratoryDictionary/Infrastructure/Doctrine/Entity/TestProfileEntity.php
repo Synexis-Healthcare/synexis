@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\LaboratoryDictionary\Infrastructure\Doctrine\Entity;
 
-use App\LaboratoryDictionary\Infrastructure\Doctrine\Repository\TestProfilesEntityRepository;
+use App\LaboratoryDictionary\Infrastructure\Doctrine\Repository\TestProfileEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TestProfilesEntityRepository::class)]
+#[ORM\Entity(repositoryClass: TestProfileEntityRepository::class)]
 #[ORM\Table(name: 'test_profiles', schema: 'laboratory_dictionary')]
-class TestProfilesEntity
+class TestProfileEntity
 {
     #[ORM\Id]
     #[ORM\Column(type: Types::TEXT)]
@@ -20,7 +20,7 @@ class TestProfilesEntity
 
     #[ORM\Column(type: Types::TEXT, nullable: false, unique: true)]
     private string $title;
-    #[ORM\ManyToMany(targetEntity: TestDefinitionsActiveEntity::class)]
+    #[ORM\ManyToMany(targetEntity: TestDefinitionActiveEntity::class)]
     #[ORM\JoinTable(
         name: 'test_profile_test_definitions',
         schema: 'laboratory_dictionary',
@@ -53,7 +53,7 @@ class TestProfilesEntity
         return $this->testDefinitions->toArray();
     }
 
-    public function addTestDefinition(TestDefinitionsActiveEntity $testDefinition): static
+    public function addTestDefinition(TestDefinitionActiveEntity $testDefinition): static
     {
         if (!$this->testDefinitions->contains($testDefinition)) {
             $this->testDefinitions->add($testDefinition);
@@ -62,7 +62,7 @@ class TestProfilesEntity
         return $this;
     }
 
-    public function removeTestDefinition(TestDefinitionsActiveEntity $testDefinition): static
+    public function removeTestDefinition(TestDefinitionActiveEntity $testDefinition): static
     {
         $this->testDefinitions->removeElement($testDefinition);
 

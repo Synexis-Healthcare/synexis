@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\LaboratoryDictionary\Infrastructure\Doctrine\Repository;
 
-use App\LaboratoryDictionary\Infrastructure\Doctrine\Entity\TestCategoriesEntity;
+use App\LaboratoryDictionary\Infrastructure\Doctrine\Entity\ReferenceRuleDraftEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<TestCategoriesEntity>
+ * @extends ServiceEntityRepository<ReferenceRuleDraftEntity>
  */
-class TestCategoriesEntityRepository extends ServiceEntityRepository
+class ReferenceRuleDraftEntityRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TestCategoriesEntity::class);
+        parent::__construct($registry, ReferenceRuleDraftEntity::class);
     }
 }

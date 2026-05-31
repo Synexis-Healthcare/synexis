@@ -43,7 +43,6 @@ final class Version20260529103932 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX uq_test_definitions_draft_official_name ON laboratory_dictionary.test_definitions_draft (official_name)');
         $this->addSql('CREATE UNIQUE INDEX uq_test_definitions_draft_short_name ON laboratory_dictionary.test_definitions_draft (short_name)');
         $this->addSql('CREATE UNIQUE INDEX uq_test_definitions_draft_loinc_code ON laboratory_dictionary.test_definitions_draft (loinc_code)');
-
     }
 
     public function down(Schema $schema): void
@@ -55,6 +54,5 @@ final class Version20260529103932 extends AbstractMigration
         $this->addSql('ALTER TABLE laboratory_dictionary.test_definitions_draft DROP CONSTRAINT FK_specimen');
 
         $this->addSql('DROP TABLE laboratory_dictionary.test_definitions_draft');
-
     }
 }

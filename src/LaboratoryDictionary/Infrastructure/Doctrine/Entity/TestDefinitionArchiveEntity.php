@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\LaboratoryDictionary\Infrastructure\Doctrine\Entity;
 
-use App\LaboratoryDictionary\Infrastructure\Doctrine\Repository\TestDefinitionsArchiveEntityRepository;
+use App\LaboratoryDictionary\Infrastructure\Doctrine\Repository\TestDefinitionArchiveEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TestDefinitionsArchiveEntityRepository::class)]
+#[ORM\Entity(repositoryClass: TestDefinitionArchiveEntityRepository::class)]
 #[ORM\Table(name: 'test_definitions_archive', schema: 'laboratory_dictionary')]
-class TestDefinitionsArchiveEntity extends TestDefinitions
+class TestDefinitionArchiveEntity extends TestDefinition
 {
     #[ORM\Id]
     #[ORM\Column(type: Types::INTEGER)]

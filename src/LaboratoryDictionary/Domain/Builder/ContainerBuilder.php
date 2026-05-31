@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\LaboratoryDictionary\Domain\Builder;
 
-use App\LaboratoryDictionary\Domain\Model\ContainerType;
+use App\LaboratoryDictionary\Domain\Model\Container;
 use Symfony\Component\Uid\Uuid;
 
 class ContainerBuilder
@@ -42,22 +42,22 @@ class ContainerBuilder
         return $this;
     }
 
-    public static function from(ContainerType $containerType): self
+    public static function from(Container $container): self
     {
         return new self()
-            ->withId($containerType->getId())
-            ->withColorTitle($containerType->getColorTitle())
-            ->withColorHex($containerType->getColorHex())
-            ->withVolume($containerType->getVolume());
+            ->withId($container->getId())
+            ->withColorTitle($container->getColorTitle())
+            ->withColorHex($container->getColorHex())
+            ->withVolume($container->getVolume());
     }
 
-    public function build(): ContainerType
+    public function build(): Container
     {
         if (!isset($this->id)) {
             throw new \InvalidArgumentException('ID is required and must be set before building');
         }
 
-        return new ContainerType(
+        return new Container(
             $this->id,
             $this->colorTitle ?? throw new \InvalidArgumentException('Color title is required'),
             $this->colorHex ?? throw new \InvalidArgumentException('Color hex code is required'),

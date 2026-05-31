@@ -30,7 +30,6 @@ final class Version20260529110701 extends AbstractMigration
 
         $this->addSql('ALTER TABLE laboratory_dictionary.test_profile_test_definitions ADD CONSTRAINT fk_test_profiles_code FOREIGN KEY (profile_code) REFERENCES laboratory_dictionary.test_profiles (code) NOT DEFERRABLE');
         $this->addSql('ALTER TABLE laboratory_dictionary.test_profile_test_definitions ADD CONSTRAINT fk_test_definitions_active_id FOREIGN KEY (test_definition_id) REFERENCES laboratory_dictionary.test_definitions_active (id) NOT DEFERRABLE');
-
     }
 
     public function down(Schema $schema): void
@@ -38,6 +37,5 @@ final class Version20260529110701 extends AbstractMigration
         $this->addSql('ALTER TABLE laboratory_dictionary.test_profile_test_definitions DROP CONSTRAINT fk_test_profiles_code');
         $this->addSql('ALTER TABLE laboratory_dictionary.test_profile_test_definitions DROP CONSTRAINT fk_test_definitions_active_id');
         $this->addSql('DROP TABLE laboratory_dictionary.test_profile_test_definitions');
-
     }
 }

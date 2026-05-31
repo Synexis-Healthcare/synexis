@@ -18,10 +18,10 @@ final class TestDefinition
         private readonly string $id,
         private readonly string $officialName,
         private readonly string $shortName,
-        private readonly string $loincCode,
+        private readonly ?string $loincCode,
         private readonly ?TestCategory $category,
-        private readonly string $methodology,
-        private readonly Unit $unit,
+        private readonly ?string $methodology,
+        private readonly ?Unit $unit,
         private readonly int $version,
         private readonly TestDefinitionStatus $status,
         private readonly array $rules,
@@ -46,22 +46,22 @@ final class TestDefinition
         return $this->shortName;
     }
 
-    public function getLoincCode(): string
+    public function getLoincCode(): ?string
     {
         return $this->loincCode;
     }
 
-    public function getCategory(): TestCategory
+    public function getCategory(): ?TestCategory
     {
         return $this->category;
     }
 
-    public function getMethodology(): string
+    public function getMethodology(): ?string
     {
         return $this->methodology;
     }
 
-    public function getUnit(): Unit
+    public function getUnit(): ?Unit
     {
         return $this->unit;
     }

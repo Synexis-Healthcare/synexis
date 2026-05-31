@@ -60,6 +60,10 @@ class ResultOptionBuilder
             throw new \InvalidArgumentException('ResultOption title is required');
         }
 
+        if (null === $this->isAbnormal) {
+            throw new \InvalidArgumentException('isAbnormal is required');
+        }
+
         return new ResultOption(
             $this->code,
             $this->title,

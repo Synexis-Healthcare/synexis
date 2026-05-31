@@ -7,7 +7,7 @@ namespace App\LaboratoryDictionary\Domain\Model;
 use App\LaboratoryDictionary\Domain\Builder\ContainerBuilder;
 use Symfony\Component\Uid\Uuid;
 
-final class ContainerType
+final class Container
 {
     public function __construct(
         private readonly Uuid $id,

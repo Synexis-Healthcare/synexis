@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\MappedSuperclass]
-abstract class TestDefinitions
+abstract class TestDefinition
 {
     #[ORM\Id]
     #[ORM\Column(type: Types::TEXT)]
@@ -17,7 +17,6 @@ abstract class TestDefinitions
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     public protected(set) ?string $officialName = null;
-
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     public protected(set) ?string $shortName = null;

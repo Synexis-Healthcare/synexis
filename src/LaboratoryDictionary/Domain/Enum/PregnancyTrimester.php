@@ -19,11 +19,11 @@ enum PregnancyTrimester: string
     public function label(): string
     {
         return match ($this) {
-            self::NOT_PREGNANT => 'Не беременна',
-            self::FIRST_TRIMESTER => 'I триместр',
+            self::NOT_PREGNANT     => 'Не беременна',
+            self::FIRST_TRIMESTER  => 'I триместр',
             self::SECOND_TRIMESTER => 'II триместр',
-            self::THIRD_TRIMESTER => 'III триместр',
-            self::POSTPARTUM => 'Послеродовой период',
+            self::THIRD_TRIMESTER  => 'III триместр',
+            self::POSTPARTUM       => 'Послеродовой период',
         };
     }
 }
